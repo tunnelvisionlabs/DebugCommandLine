@@ -6,7 +6,7 @@
     <Version>1.0.0</Version>
     <Description xml:space="preserve">Provides a toolbar dropdown to quickly switch between recently used debugger command lines.</Description>
     <MoreInfoUrl>https://github.com/tunnelvisionlabs/DebugCommandLine</MoreInfoUrl>
-    <GettingStartedGuide>https://github.com/tunnelvisionlabs/DebugCommandLine</GettingStartedGuide>
+    <GettingStartedGuide>https://visualstudiogallery.msdn.microsoft.com/b54410f3-90aa-4071-abb3-215efea48074</GettingStartedGuide>
     <Locale>1033</Locale>
     <License>LICENSE.txt</License>
     <SupportedProducts>
