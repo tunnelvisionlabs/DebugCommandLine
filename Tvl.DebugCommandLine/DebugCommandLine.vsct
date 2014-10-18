@@ -1,3 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable">
+  <Extern href="vsshlids.h"/>
+
+  <Commands package="guidDebugCommandLinePackage">
+    <Combos>
+      <Combo guid="guidDebugCommandLineCommandSet" id="cmdidDebugCommandLineCombo" priority="0x0000" type="DropDownCombo" defaultWidth="135" idCommandList="cmdidDebugCommandLineComboGetList">
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>CommandWellOnly</CommandFlag>
+        <Strings>
+          <ButtonText>Debug Command Line</ButtonText>
+        </Strings>
+      </Combo>
+    </Combos>
+  </Commands>
+
+  <CommandPlacements>
+    <CommandPlacement guid="guidDebugCommandLineCommandSet" id="cmdidDebugCommandLineCombo" priority="0x500">
+      <!-- Default placement on the "Standard" toolbar, to the right of Solution Platforms -->
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_TOOLSB_RUNBUILD"/>
+    </CommandPlacement>
+  </CommandPlacements>
+
+  <Symbols>
+    <GuidSymbol name="guidDebugCommandLinePackage" value="{238A874D-D659-4517-85D1-06B0E3CF4B7F}"/>
+    <GuidSymbol name="guidDebugCommandLineCommandSet" value="{B9B17AA7-66FB-4BEB-AE17-876222AE8390}">
+      <IDSymbol name="cmdidDebugCommandLineCombo" value="0"/>
+      <IDSymbol name="cmdidDebugCommandLineComboGetList" value="1"/>
+    </GuidSymbol>
+  </Symbols>
 </CommandTable>

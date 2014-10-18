@@ -108,6 +108,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DebugCommandLineCommand.cs" />
+    <Compile Include="DebugCommandLineCommandID.cs" />
     <Compile Include="DebugCommandLinePackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
