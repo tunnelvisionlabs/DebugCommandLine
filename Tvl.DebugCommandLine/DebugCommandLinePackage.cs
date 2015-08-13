@@ -10,8 +10,10 @@ namespace Tvl.DebugCommandLine
     using System.Linq;
     using System.Runtime.InteropServices;
     using Microsoft.VisualStudio;
+    using Microsoft.VisualStudio.Settings;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
+    using Microsoft.VisualStudio.Shell.Settings;
 
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
@@ -20,6 +22,10 @@ namespace Tvl.DebugCommandLine
     internal class DebugCommandLinePackage : Package
     {
         private static readonly string[] KnownStartupProperties = { "CommandArguments", "StartArguments" };
+        private static readonly string SettingsCollectionName = "DebugCommandLine";
+        private static readonly string RecentCommandLinesCollectionName = SettingsCollectionName + @"\RecentCommandLines";
+        private static readonly int maxRecentCommandLineCount = 15;
+        private WritableSettingsStore SettingsStore;
 
         private ReadOnlyCollection<string> RecentCommandLines = new ReadOnlyCollection<string>(new string[0]);
 
@@ -40,6 +46,38 @@ namespace Tvl.DebugCommandLine
                 OleMenuCommand comboBoxGetListCommand = new OleMenuCommand(HandleInvokeComboGetList, comboBoxGetListCommandID);
                 menuCommandService.AddCommand(comboBoxGetListCommand);
             }
+
+            var shellSettingsManager = new ShellSettingsManager(this);
+            SettingsStore = shellSettingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
+            LoadSettings ();
+        }
+
+        private void LoadSettings ()
+        {
+            var recentCommands = new List<string>(RecentCommandLines);
+            for (int i = 0; i < maxRecentCommandLineCount; ++i)
+            {
+                if (!SettingsStore.PropertyExists(RecentCommandLinesCollectionName, i.ToString()))
+                    break;
+
+                var commandLine = SettingsStore.GetString (RecentCommandLinesCollectionName, i.ToString ());
+                recentCommands.Add (commandLine);
+            }
+            RecentCommandLines = new ReadOnlyCollection<string>(recentCommands);
+        }
+
+        private void SaveSettings ()
+        {
+            if (SettingsStore.CollectionExists(RecentCommandLinesCollectionName))
+                SettingsStore.DeleteCollection (RecentCommandLinesCollectionName);
+
+            SettingsStore.CreateCollection(RecentCommandLinesCollectionName);
+            int i = 0;
+            foreach (var commandLine in RecentCommandLines)
+                {
+                    SettingsStore.SetString(RecentCommandLinesCollectionName, i.ToString(), commandLine);
+                    ++i;
+                }
         }
 
         private void HandleInvokeCombo(object sender, EventArgs e)
@@ -256,10 +294,11 @@ namespace Tvl.DebugCommandLine
             List<string> recentCommands = new List<string>(RecentCommandLines);
             recentCommands.Remove(command);
             recentCommands.Insert(0, command);
-            while (recentCommands.Count > 15)
+            while (recentCommands.Count > maxRecentCommandLineCount)
                 recentCommands.RemoveAt(recentCommands.Count - 1);
 
             RecentCommandLines = new ReadOnlyCollection<string>(recentCommands);
+            SaveSettings();
         }
     }
 }
