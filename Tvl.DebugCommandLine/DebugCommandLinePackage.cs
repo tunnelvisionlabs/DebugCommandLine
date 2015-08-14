@@ -49,35 +49,34 @@ namespace Tvl.DebugCommandLine
 
             var shellSettingsManager = new ShellSettingsManager(this);
             SettingsStore = shellSettingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
-            LoadSettings ();
+            LoadSettings();
         }
 
-        private void LoadSettings ()
+        private void LoadSettings()
         {
             var recentCommands = new List<string>(RecentCommandLines);
-            for (int i = 0; i < maxRecentCommandLineCount; ++i)
+            for (int i = 0; i < maxRecentCommandLineCount; i++)
             {
                 if (!SettingsStore.PropertyExists(RecentCommandLinesCollectionName, i.ToString()))
                     break;
 
-                var commandLine = SettingsStore.GetString (RecentCommandLinesCollectionName, i.ToString ());
-                recentCommands.Add (commandLine);
+                var commandLine = SettingsStore.GetString(RecentCommandLinesCollectionName, i.ToString());
+                recentCommands.Add(commandLine);
             }
+
             RecentCommandLines = new ReadOnlyCollection<string>(recentCommands);
         }
 
-        private void SaveSettings ()
+        private void SaveSettings()
         {
             if (SettingsStore.CollectionExists(RecentCommandLinesCollectionName))
-                SettingsStore.DeleteCollection (RecentCommandLinesCollectionName);
+                SettingsStore.DeleteCollection(RecentCommandLinesCollectionName);
 
             SettingsStore.CreateCollection(RecentCommandLinesCollectionName);
-            int i = 0;
-            foreach (var commandLine in RecentCommandLines)
-                {
-                    SettingsStore.SetString(RecentCommandLinesCollectionName, i.ToString(), commandLine);
-                    ++i;
-                }
+            for (int i = 0; i < RecentCommandLines.Count; i++)
+            {
+                SettingsStore.SetString(RecentCommandLinesCollectionName, i.ToString(), RecentCommandLines[i]);
+            }
         }
 
         private void HandleInvokeCombo(object sender, EventArgs e)
