@@ -3,7 +3,7 @@
   <Identifier Id="DebugCommandLine.238a874d-d659-4517-85d1-06b0e3cf4b7f">
     <Name>Debug Command Line</Name>
     <Author>Sam Harwell</Author>
-    <Version>1.0.1</Version>
+    <Version>1.1.1</Version>
     <Description xml:space="preserve">Provides a toolbar dropdown to quickly switch between recently used debugger command lines.</Description>
     <MoreInfoUrl>https://github.com/tunnelvisionlabs/DebugCommandLine</MoreInfoUrl>
     <GettingStartedGuide>https://visualstudiogallery.msdn.microsoft.com/b54410f3-90aa-4071-abb3-215efea48074</GettingStartedGuide>
