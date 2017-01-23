@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="DebugCommandLine.238a874d-d659-4517-85d1-06b0e3cf4b7f" Version="2.0.0" Language="en-US" Publisher="Sam Harwell" />
+    <Identity Id="DebugCommandLine.238a874d-d659-4517-85d1-06b0e3cf4b7f" Version="2.1.0" Language="en-US" Publisher="Sam Harwell" />
     <DisplayName>Debug Command Line</DisplayName>
     <Description>Provides a toolbar dropdown to quickly switch between recently used debugger command lines.</Description>
     <MoreInfo>https://github.com/tunnelvisionlabs/DebugCommandLine</MoreInfo>
     <License>LICENSE.txt</License>
     <!-- Don't include the GettingStartedGuide because it makes a web browser pop up after installation -->
     <!--<GettingStartedGuide>https://marketplace.visualstudio.com/items?itemName=SamHarwell.DebugCommandLine</GettingStartedGuide>-->
-    <ReleaseNotes>https://github.com/tunnelvisionlabs/DebugCommandLine/releases/tag/2.0.0</ReleaseNotes>
+    <ReleaseNotes>https://github.com/tunnelvisionlabs/DebugCommandLine/releases/tag/2.1.0</ReleaseNotes>
     <!--<Icon></Icon>-->
     <!--<PreviewImage></PreviewImage>-->
     <Tags>configuration, debugging</Tags>
