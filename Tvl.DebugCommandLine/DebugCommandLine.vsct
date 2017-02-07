@@ -4,7 +4,7 @@
 
   <Commands package="guidDebugCommandLinePackage">
     <Combos>
-      <Combo guid="guidDebugCommandLineCommandSet" id="cmdidDebugCommandLineCombo" priority="0x0000" type="DropDownCombo" defaultWidth="135" idCommandList="cmdidDebugCommandLineComboGetList">
+      <Combo guid="guidDebugCommandLineCommandSet" id="cmdidDebugCommandLineCombo" priority="0x0000" type="MRUCombo" defaultWidth="135" idCommandList="cmdidDebugCommandLineComboGetList">
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>CommandWellOnly</CommandFlag>
