@@ -37,19 +37,25 @@ namespace Tvl.DebugCommandLine
             if (menuCommandService != null)
             {
                 // This is the drop down combo box itself
+                /*
                 CommandID comboBoxCommandID = new DebugCommandLineCommandID(DebugCommandLineCommand.DebugCommandLineCombo);
                 OleMenuCommand comboBoxCommand = new OleMenuCommand(HandleInvokeCombo, HandleChangeCombo, HandleBeforeQueryStatusCombo, comboBoxCommandID);
-                menuCommandService.AddCommand(comboBoxCommand);
+                menuCommandService.AddCommand(comboBoxCommand);*/
 
                 // This is the special command to get the list of drop down items
-                CommandID comboBoxGetListCommandID = new DebugCommandLineCommandID(DebugCommandLineCommand.DebugCommandLineComboGetList);
+                /*CommandID comboBoxGetListCommandID = new DebugCommandLineCommandID(DebugCommandLineCommand.DebugCommandLineComboGetList);
                 OleMenuCommand comboBoxGetListCommand = new OleMenuCommand(HandleInvokeComboGetList, comboBoxGetListCommandID);
-                menuCommandService.AddCommand(comboBoxGetListCommand);
+                menuCommandService.AddCommand(comboBoxGetListCommand);*/
+
+                // This MRU combo box contains an editable text-field and a drop down menu which is saved on an application and user basis
+                CommandID comboBoxCommandID = new DebugCommandLineCommandID(DebugCommandLineCommand.DebugCommandLineCombo);
+                OleMenuCommand comboBoxCommand = new OleMenuCommand(new EventHandler(HandleOnMRUCombo), comboBoxCommandID);
+                menuCommandService.AddCommand(comboBoxCommand);
             }
 
-            var shellSettingsManager = new ShellSettingsManager(this);
+            /*var shellSettingsManager = new ShellSettingsManager(this);
             SettingsStore = shellSettingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
-            LoadSettings();
+            LoadSettings();*/
         }
 
         private void LoadSettings()
@@ -98,6 +104,64 @@ namespace Tvl.DebugCommandLine
                 SetMostRecentString(commandArguments);
                 Marshal.GetNativeVariantForObject(commandArguments, oleEventArgs.OutValue);
                 return;
+            }
+        }
+
+        private string currentMRUComboChoice = null;
+
+        private void HandleOnMRUCombo(object sender, EventArgs e)
+        {
+            if (e == EventArgs.Empty)
+            {
+                // We should never get here; EventArgs are required.
+                throw new ArgumentException("EventArgs required."); // force an exception to be thrown
+            }
+
+            OleMenuCmdEventArgs eventArgs = e as OleMenuCmdEventArgs;
+
+            if (eventArgs != null)
+            {
+                object input = eventArgs.InValue;
+                IntPtr vOut = eventArgs.OutValue;
+
+                if (vOut != IntPtr.Zero && input != null)
+                {
+                    throw new ArgumentException("BothInOutParamsIllegal"); // force an exception to be thrown
+                }
+                else if (vOut != IntPtr.Zero)
+                {
+                    // when vOut is non-NULL, the IDE is requesting the current value for the combo
+                    string commandArguments = TryGetStartupCommandArguments();
+                    Marshal.GetNativeVariantForObject(commandArguments, vOut);
+                }
+
+                else if (input != null)
+                {
+                    string newChoice = input.ToString();
+
+                    // new value was selected or typed in
+                    if (!string.IsNullOrEmpty(newChoice))
+                    {
+                        currentMRUComboChoice = newChoice;
+                        SetStartupCommandArguments(newChoice);
+
+                        //ShowMessage(Resources.MyMRUCombo, currentMRUComboChoice);
+                    }
+                    else
+                    {
+                        // We should never get here
+                        throw new ArgumentException("EmptyStringIllegal"); // force an exception to be thrown
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException("BothInOutParamsIllegal"); // force an exception to be thrown
+                }
+            }
+            else
+            {
+                // We should never get here; EventArgs are required.
+                throw new ArgumentException("EventArgs required."); // force an exception to be thrown
             }
         }
 
